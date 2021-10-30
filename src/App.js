@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Cart from "./pages/Cart";
+import Food from "./pages/Food";
+import Payment from "./pages/Payment";
+import _404_ from "./pages/_404_";
 
-function App() {
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/css/style.css";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Header/>
+      <Switch>
+        <Route exact path={"/"} component={Food}/>
+        <Route exact path={"/cart"} component={Cart}/>
+        <Route exact path={"/payment"} component={Payment}/>
+        <Route component={_404_}/>
+      </Switch>
+      <Footer/>
+    </Router>
   );
 }
-
-export default App;
