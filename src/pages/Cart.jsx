@@ -58,14 +58,15 @@ export default class Cart extends Component {
 
         this.state = {
             foods: [],
+            subTotal: 0
         }
 
         this.state.foods = foods
         this.deleteFood = this.deleteFood.bind(this);
+        this.calSubtotal = this.calSubtotal.bind(this);
     }
 
     deleteFood(food) {
-        //const temp = this.state.foods.shift();
         const temp = this.state.foods.filter(item => item !== food)
         console.log(temp)
         this.setState({
@@ -73,7 +74,14 @@ export default class Cart extends Component {
         })
     }
 
+    calSubtotal(price){
+        console.log(price)
+        this.setState(state =>({
+            subTotal: state.subTotal + price
+        }))
+    }
 
+    //updateSubtotal()
 
     render() {
         return (
@@ -91,13 +99,13 @@ export default class Cart extends Component {
 
                     {this.state.foods.map(food => {
                         return (
-                            <CartItem index={this.state.foods.indexOf(food)} food={food} deleteFood={this.deleteFood} />
+                            <CartItem key={"key-" + food.name + this.state.foods.indexOf(food)} index={this.state.foods.indexOf(food)} food={food} deleteFood={this.deleteFood} calSubtotal={this.calSubtotal} />
                         )
                     })}
-                    <div class="row justify-content-end" style={{
+                    <div class="row justify-content-end mt-5" style={{
                         fontSize: "2rem",
                         fontWeight: "600"
-                    }}>Subtotal: 300$</div>
+                    }}>Subtotal: {this.state.subTotal}$</div>
                     <div class="d-flex flex-row-reverse">
                         <div>
                             <button style={{

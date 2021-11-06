@@ -21,19 +21,30 @@ export default class CartItem extends Component {
         this.calTotal = this.calTotal.bind(this);
     }
 
+    componentDidMount(){
+        this.props.calSubtotal(this.state.total)
+    }
+
+    componentWillUnmount(){
+        this.props.calSubtotal(-this.state.total)
+    }
+
+
     increment() {
         this.setState(state => ({
             quantity: state.quantity + 1
         }))
         this.calTotal()
+        this.props.calSubtotal(this.state.price)
     }
 
     decrement() {
-        if (this.state.quantity > 0) {
+        if (this.state.quantity > 1) {
             this.setState(state => ({
                 quantity: state.quantity - 1
             }))
             this.calTotal()
+            this.props.calSubtotal(-this.state.price)
         }
     }
 
@@ -57,6 +68,7 @@ export default class CartItem extends Component {
                                 <div class="row" style={{
                                     fontSize: "1rem",
                                     fontWeight: "400",
+                                    marginLeft: "0.6rem"
                                 }}><i>{this.state.category}</i></div>
                             </div>
                         </div>
