@@ -5,6 +5,7 @@ export default class Food extends Component {
         super(props)
 
         this.state.foods = []
+        this.state.categories = []
 
         const foods = []
         const m1 = {
@@ -56,13 +57,40 @@ export default class Food extends Component {
         foods.push(m5)
         foods.push(m6)
         foods.push(m7)
+
+        const categories = []
+        const c1 = {
+            name: "Starter",
+            image: "https://cdnimg.webstaurantstore.com/images/products/large/80273/1831963.jpg",
+        }
+        const c2 = {
+            name: "Main",
+            image: "http://bizweb.dktcdn.net/thumb/grande/100/405/121/products/7e2480e3-45b9-477e-9604-5b21ce11296e.jpg?v=1627120558960",
+        }
+        const c3 = {
+            name: "Dessert",
+            image: "https://media.tinmoi.vn/2015/07/15/cach-lam-kem-flan-mem-min-thom-ngon-tai-nha.jpg",
+        }
+        const c4 = {
+            name: "Drink",
+            image: "https://product.hstatic.net/1000126467/product/07140303_7158a3f3683f4803a3e2f0431676117e_bea546c99e3c4d709ebe43e31cc36def_grande.jpg",
+        }
         
+        categories.push(c1)
+        categories.push(c2)
+        categories.push(c3)
+        categories.push(c4)
+
+
         this.state.foods = foods
+        this.state.filteredFoods = foods
+        this.state.categories = categories
     }
 
     state = {
         foods: [],
         filteredFoods: [],
+        categories: [],
         // All, Starter, Main, Drink, Dessert
         currentCategory: "All",
     }
@@ -73,8 +101,8 @@ export default class Food extends Component {
 
         return (
             <div className="container mt-5">
-                <h4>Categories</h4>
-                <div className="row row-cols-2 row-cols-sm-4 row-cols-md-5 g-3 justify-content-around">
+                <h4 >Categories</h4>
+                <div className="row row-cols-2 row-cols-sm-4 row-cols-md-5 g-5 justify-content-left">
                     {categories}
                 </div>
                 <h4 className="mt-3">Category: {this.state.currentCategory}</h4>
@@ -87,15 +115,15 @@ export default class Food extends Component {
 
     renderFoods() {
         const foodCards = []
-        for (const food of this.state.foods) {
+        for (const food of this.state.filteredFoods) {
             foodCards.push(
                 <div className="col">
                     <div className="card">
                         <img src={food.image} className="card-img-top" alt="Food" />
-                            <div className="card-body text-center">
-                                <h5 className="card-title">{food.name}</h5>
-                                <p className="card-text text-danger">Price: {food.price}</p>
-                            </div>
+                        <div className="card-body text-center">
+                            <h5 className="card-title">{food.name}</h5>
+                            <p className="card-text text-danger">Price: {food.price}</p>
+                        </div>
                     </div>
                 </div>
             )
@@ -105,11 +133,29 @@ export default class Food extends Component {
 
     // Hien thi card category
     renderCategories() {
+        const categoryCard = []
+        for (const category of this.state.categories) {
+            categoryCard.push(
+                <div className="col-md-2" onClick={()=>{this.filterFoodsByCategory(category.name)}}>
+                    <div className="card border-2">
+                        <img src={category.image} className="card-img-top" alt="Food" />
+                        <div className="text-center">
+                            <h5 className="card-title">{category.name}</h5>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
 
+        return categoryCard
     }
 
     // Luu food vao filteredFoods
-    filterFoodsByCategory() {
-
+    filterFoodsByCategory(Category) {
+        console.log("clicked at ", Category)
+        this.setState(state => ({
+            filteredFoods: state.foods.filter(item => item.category === Category),
+            currentCategory: Category
+        }))
     }
 }
