@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FaShoppingCart } from "react-icons/fa"
 
 export default class Food extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class Food extends Component {
         const m2 = {
             name: "Coca",
             image: "https://product.hstatic.net/1000126467/product/07140303_7158a3f3683f4803a3e2f0431676117e_bea546c99e3c4d709ebe43e31cc36def_grande.jpg",
-            price: 200,
+            price: 50,
             category: 'Drink',
         }
         const m3 = {
@@ -41,7 +42,7 @@ export default class Food extends Component {
         const m6 = {
             name: "Crab Soup",
             image: "https://cdnimg.webstaurantstore.com/images/products/large/80273/1831963.jpg",
-            price: 100,
+            price: 300,
             category: 'Starter',
         }
         const m7 = {
@@ -59,6 +60,10 @@ export default class Food extends Component {
         foods.push(m7)
 
         const categories = []
+        const c0 = {
+            name: "All",
+            image: "https://www.thaistreet.com.vn/wp-content/uploads/2021/04/Food.jpg"
+        }
         const c1 = {
             name: "Starter",
             image: "https://cdnimg.webstaurantstore.com/images/products/large/80273/1831963.jpg",
@@ -76,6 +81,7 @@ export default class Food extends Component {
             image: "https://product.hstatic.net/1000126467/product/07140303_7158a3f3683f4803a3e2f0431676117e_bea546c99e3c4d709ebe43e31cc36def_grande.jpg",
         }
         
+        categories.push(c0)
         categories.push(c1)
         categories.push(c2)
         categories.push(c3)
@@ -85,6 +91,8 @@ export default class Food extends Component {
         this.state.foods = foods
         this.state.filteredFoods = foods
         this.state.categories = categories
+        
+        this.renderCategories = this.renderCategories.bind(this)
     }
 
     state = {
@@ -105,8 +113,9 @@ export default class Food extends Component {
                 <div className="row row-cols-2 row-cols-sm-4 row-cols-md-5 g-5 justify-content-left">
                     {categories}
                 </div>
-                <h4 className="mt-3">Category: {this.state.currentCategory}</h4>
-                <div className="row row-cols-xs-2 row-cols-sm-4 row-cols-md-5 g-4">
+                <hr className="mt-5 mb-3"/>
+                <h4>Category: {this.state.currentCategory}</h4>
+                <div className="row row-cols-xs-2 row-cols-sm-4 row-cols-md-5 g-4 mb-5">
                     {foods}
                 </div>
             </div>
@@ -121,8 +130,9 @@ export default class Food extends Component {
                     <div className="card">
                         <img src={food.image} className="card-img-top" alt="Food" />
                         <div className="card-body text-center">
-                            <h5 className="card-title">{food.name}</h5>
-                            <p className="card-text text-danger">Price: {food.price}</p>
+                            <h6 className="card-title">{food.name}</h6>
+                            <p className="card-text text-danger">Price: ${food.price}</p>
+                            <button className="btn btn-danger"><FaShoppingCart/> Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -137,10 +147,10 @@ export default class Food extends Component {
         for (const category of this.state.categories) {
             categoryCard.push(
                 <div className="col-md-2" onClick={()=>{this.filterFoodsByCategory(category.name)}}>
-                    <div className="card border-2">
+                    <div className={category.name === this.state.currentCategory ? "card border-2 text-white bg-dark" : "card border-2"}>
                         <img src={category.image} className="card-img-top" alt="Food" />
                         <div className="text-center">
-                            <h5 className="card-title">{category.name}</h5>
+                            <h5 className="card-title mt-2">{category.name}</h5>
                         </div>
                     </div>
                 </div>
@@ -152,9 +162,8 @@ export default class Food extends Component {
 
     // Luu food vao filteredFoods
     filterFoodsByCategory(Category) {
-        console.log("clicked at ", Category)
         this.setState(state => ({
-            filteredFoods: state.foods.filter(item => item.category === Category),
+            filteredFoods: state.foods.filter(item => Category === "All" || item.category === Category),
             currentCategory: Category
         }))
     }
