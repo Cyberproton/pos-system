@@ -13,7 +13,7 @@ export default class CartItem extends Component {
             category: props.food.category,
             image: props.food.image,
             price: props.food.price,
-            quantity: 1,
+            quantity: props.food.quantity,
             total: props.food.price,
         }
         this.increment = this.increment.bind(this);
@@ -22,20 +22,15 @@ export default class CartItem extends Component {
     }
 
     componentDidMount(){
-        this.props.calSubtotal(this.state.total)
+        this.calTotal()
     }
-
-    componentWillUnmount(){
-        this.props.calSubtotal(-this.state.total)
-    }
-
 
     increment() {
         this.setState(state => ({
             quantity: state.quantity + 1
         }))
         this.calTotal()
-        this.props.calSubtotal(this.state.price)
+        this.props.updateQuantity(this.state.index, +1)
     }
 
     decrement() {
@@ -44,7 +39,7 @@ export default class CartItem extends Component {
                 quantity: state.quantity - 1
             }))
             this.calTotal()
-            this.props.calSubtotal(-this.state.price)
+            this.props.updateQuantity(this.state.index , -1)
         }
     }
 
