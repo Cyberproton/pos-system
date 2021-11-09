@@ -11,7 +11,7 @@ export default class Food extends Component {
         const foods = []
         const m1 = {
             name: 'Hamburger',
-            image: "https://cacloaibanh.com/wp-content/uploads/2019/07/banh-hamburger-ca-600x600.jpg",
+            image: "https://lh3.googleusercontent.com/proxy/y7la1sbZ4--9gyYhop8Xq6FKqtOqvhbxw1x6YulJHB5BzR860q2KAPoZHEfLyYYBEQoPyiCLiF0DeMsaC5c7d3MBExPqgeJ3yyJuR1YfZdSA9r-HprxnUAN_sBs5Mp-FEo-YQWtOtwSY25q-PMHJfC9_365YGWx0eg",
             price: 200,
             category: 'Starter',
         }
