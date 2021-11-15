@@ -13,7 +13,7 @@ import "./assets/css/style.css";
 const foods = []
 const m1 = {
   name: 'Hamburger',
-  image: "https://lh3.googleusercontent.com/proxy/y7la1sbZ4--9gyYhop8Xq6FKqtOqvhbxw1x6YulJHB5BzR860q2KAPoZHEfLyYYBEQoPyiCLiF0DeMsaC5c7d3MBExPqgeJ3yyJuR1YfZdSA9r-HprxnUAN_sBs5Mp-FEo-YQWtOtwSY25q-PMHJfC9_365YGWx0eg",
+  image: "http://product.hstatic.net/200000291375/product/item_06_81ec186cbf674fc89d6cd50c1e00298d_grande.jpg",
   price: 200,
   category: 'Starter',
   quantity: 1
@@ -78,7 +78,13 @@ export default class App extends Component {
   }
 
   addItem(item) {
-    const temp = this.state.items.push(item)
+    const index = this.state.items.findIndex(it => it.name === item.name)
+    const temp = this.state.items
+    if (index === -1) {
+      temp.push(item)
+    } else {
+      temp[index].quantity += item.quantity
+    }
     this.setState({ items: temp })
     localStorage.setItem("items", JSON.stringify(temp))
   }
@@ -88,7 +94,7 @@ export default class App extends Component {
       <Router>
         <Header />
         <Switch>
-          <Route exact path={"/"} component={Food} />
+          <Route exact path={"/"} component={() => <Food addItem={this.addItem}/>}/>
           <Route exact path={"/cart"} component={() => <Cart items={this.state.items} updateItemQuantity={this.updateItemQuantity} addItem={this.addItem} deleteItem={this.deleteItem} />} />
           <Route exact path={"/payment"} component={() => <Payment items={this.state.items}/>} />
           <Route component={_404_} />
